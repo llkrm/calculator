@@ -10,21 +10,30 @@ class TestButtons:
 
     def teardown_method(self):
         """
-        Testing button CE.
+        Testing button AC or CE.
         Expecting 0 in the result field.
         This test method is used as a teardown_method, called after each test, to reset the result field.
         :return: None
         """
         print("In " + inspect.currentframe().f_code.co_name)
 
-        # click on button CE
-        click_buttons.Buttons(self.driver).click_button_CE()
+        try:
+            # click on button AC
+            click_buttons.Buttons(self.driver).click_button_AC()
+        except:
+            print("Button AC not present.")
+
+        try:
+            # click on button CE
+            click_buttons.Buttons(self.driver).click_button_CE()
+        except:
+            print("Button CE not present.")
 
         # read value from the output field
-        button_CE_output = output_field.OutputField(self.driver).read_value()
+        button_output = output_field.OutputField(self.driver).read_value()
 
         # check if the actual value is equal with the expected value
-        assert button_CE_output == '0'
+        assert button_output == '0'
         sleep(1)
 
 

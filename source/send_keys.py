@@ -1,6 +1,7 @@
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from source import output_field
 
 class UserKeys:
 
@@ -83,10 +84,55 @@ class UserKeys:
         # send all alphabet keys
         self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys("qwertyuiopasdfghjklzxcvbnm")
 
-    def send_key_backspace_multiple(self, n=2):
-        # send key "Backspace" <n> times. Default for "n" is 2.
+    def send_key_backspace_multiple(self, n):
+        # send key "Backspace" <n> times.
+        if n <= 0:
+            raise Exception("Argument must be a positive integer.")
         self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys([Keys.BACK_SPACE] * n)
 
     def send_all_numeric_keys(self):
         # send all 10 numeric keys: 1234567890
         self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys("1234567890")
+
+    def send_10_to_the_power_of(self, pow):
+        # send keys to calculate 10 to the power of <pow>.
+        if pow == 0:
+            self.send_key_1()
+            return
+        elif pow < 0:
+            self.send_key_1()
+            for i in range(abs(pow)):
+                self.send_key_divide()
+                self.send_key_1()
+                self.send_key_0()
+        else:
+            for i in range(abs(pow)):
+                self.send_key_1()
+                self.send_key_0()
+                self.send_key_multiply()
+            self.send_key_backspace()
+
+    def send_multiple_keys(self, key_string):
+        # send key_string
+        self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys(key_string)
+
+    def send_key_CTRL(self):
+        # send key "CTRL"
+        self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys(Keys.CONTROL)
+
+    def send_key_ALT(self):
+        # send key "ALT"
+        self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys(Keys.ALT)
+
+    def send_key_SHIFT(self):
+        # send key "SHIFT"
+        self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys(Keys.SHIFT)
+
+    def send_key_TAB(self):
+        # send key "TAB"
+        self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys(Keys.TAB)
+
+    def send_F_keys(self):
+        # send keys "F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12"
+        self.driver.find_element(By.XPATH, '//*[@id="rso"]/div[1]/div/div/div/div/div[1]/div/div/div[1]/div[2]/div[2]/div').send_keys(
+            [Keys.F1, Keys.F2, Keys.F3, Keys.F4, Keys.F5, Keys.F6, Keys.F7, Keys.F8, Keys.F9, Keys.F10, Keys.F11, Keys.F12])
